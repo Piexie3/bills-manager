@@ -9,14 +9,14 @@ class BannerModel {
 }
 
 List<BannerModel> bannerCards = [
-  new BannerModel(
+  BannerModel(
       "Check Disease",
       [
         Color(0xffa1d4ed),
         Color(0xffc0eaff),
       ],
       "assets/414-bg.png"),
-  new BannerModel(
+  BannerModel(
       "Covid-19",
       [
         Color(0xffb6d4fa),

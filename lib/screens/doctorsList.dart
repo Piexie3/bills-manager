@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:health_and_doctor_appointment/firestore-data/searchList.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 class DoctorsList extends StatefulWidget {
   @override
@@ -11,7 +10,7 @@ class DoctorsList extends StatefulWidget {
 
 class _DoctorsListState extends State<DoctorsList> {
   TextEditingController _textController = new TextEditingController();
-  String search;
+  String search = "";
   var _length = 0;
 
   @override
@@ -56,7 +55,7 @@ class _DoctorsListState extends State<DoctorsList> {
                     fontWeight: FontWeight.w800,
                   ),
                   prefixIcon: Icon(
-                    FlutterIcons.search1_ant,
+                    Bootstrap.search,
                     size: 20,
                   ),
                   prefixStyle: TextStyle(

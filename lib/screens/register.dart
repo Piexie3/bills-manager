@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:health_and_doctor_appointment/screens/signIn.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -25,7 +25,7 @@ class _RegisterState extends State<Register> {
   FocusNode f3 = new FocusNode();
   FocusNode f4 = new FocusNode();
 
-  bool _isSuccess;
+  bool _isSuccess = false;
 
   @override
   void dispose() {
@@ -42,8 +42,7 @@ class _RegisterState extends State<Register> {
         child: Center(
           child: NotificationListener<OverscrollIndicatorNotification>(
             onNotification: (OverscrollIndicatorNotification overscroll) {
-              overscroll.disallowGlow();
-              return;
+              return overscroll.leading;
             },
             child: SingleChildScrollView(
               child: Column(
@@ -111,7 +110,7 @@ class _RegisterState extends State<Register> {
               },
               textInputAction: TextInputAction.next,
               validator: (value) {
-                if (value.isEmpty) return 'Please enter the Name';
+                if (value!.isEmpty) return 'Please enter the Name';
                 return null;
               },
             ),
@@ -149,7 +148,7 @@ class _RegisterState extends State<Register> {
               },
               textInputAction: TextInputAction.next,
               validator: (value) {
-                if (value.isEmpty) {
+                if (value!.isEmpty) {
                   return 'Please enter the Email';
                 } else if (!emailValidate(value)) {
                   return 'Please enter correct Email';
@@ -191,7 +190,7 @@ class _RegisterState extends State<Register> {
               },
               textInputAction: TextInputAction.next,
               validator: (value) {
-                if (value.isEmpty) {
+                if (value!.isEmpty) {
                   return 'Please enter the Password';
                 } else if (value.length < 8) {
                   return 'Password must be at least 8 characters long';
@@ -231,7 +230,7 @@ class _RegisterState extends State<Register> {
               },
               textInputAction: TextInputAction.done,
               validator: (value) {
-                if (value.isEmpty) {
+                if (value!.isEmpty) {
                   return 'Please enter the Password';
                 } else if (value.compareTo(_passwordController.text) != 0) {
                   return 'Password not Matching';
@@ -256,15 +255,15 @@ class _RegisterState extends State<Register> {
                     ),
                   ),
                   onPressed: () async {
-                    if (_formKey.currentState.validate()) {
+                    if (_formKey.currentState!.validate()) {
                       showLoaderDialog(context);
                       _registerAccount();
                     }
                   },
                   style: ElevatedButton.styleFrom(
                     elevation: 2,
-                    primary: Colors.indigo[900],
-                    onPrimary: Colors.black,
+                    backgroundColor: Colors.indigo[900],
+                    foregroundColor: Colors.black,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(32.0),
                     ),
@@ -290,7 +289,7 @@ class _RegisterState extends State<Register> {
                         borderRadius: BorderRadius.circular(32)),
                     child: IconButton(
                       icon: Icon(
-                        FlutterIcons.google_ant,
+                        AntDesign.google_circle_fill,
                         color: Colors.white,
                       ),
                       onPressed: () {},
@@ -305,7 +304,7 @@ class _RegisterState extends State<Register> {
                         borderRadius: BorderRadius.circular(32)),
                     child: IconButton(
                       icon: Icon(
-                        FlutterIcons.facebook_f_faw,
+                        AntDesign.facebook_fill,
                         color: Colors.white,
                       ),
                       onPressed: () {},
@@ -422,8 +421,8 @@ class _RegisterState extends State<Register> {
   }
 
   void _registerAccount() async {
-    User user;
-    UserCredential credential;
+    User? user;
+    UserCredential? credential;
 
     try {
       credential = await _auth.createUserWithEmailAndPassword(
@@ -440,7 +439,7 @@ class _RegisterState extends State<Register> {
         print(user);
       }
     }
-    user = credential.user;
+    user = credential!.user;
 
     if (user != null) {
       if (!user.emailVerified) {
@@ -450,11 +449,11 @@ class _RegisterState extends State<Register> {
 
       FirebaseFirestore.instance.collection('users').doc(user.uid).set({
         'name': _displayName.text,
-        'birthDate': null,
+        'birthDate': "",
         'email': user.email,
-        'phone': null,
-        'bio': null,
-        'city': null,
+        'phone': "",
+        'bio': "",
+        'city': "",
       }, SetOptions(merge: true));
 
       Navigator.of(context)

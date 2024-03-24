@@ -1,12 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class UpdateUserDetails extends StatefulWidget {
   final String label;
   final String field;
-  const UpdateUserDetails({Key key, this.label, this.field}) : super(key: key);
+  const UpdateUserDetails({
+    super.key,
+    required this.label,
+    required this.field,
+  });
 
   @override
   _UpdateUserDetailsState createState() => _UpdateUserDetailsState();
@@ -14,14 +18,14 @@ class UpdateUserDetails extends StatefulWidget {
 
 class _UpdateUserDetailsState extends State<UpdateUserDetails> {
   TextEditingController _textcontroller = TextEditingController();
-  FocusNode f1;
+  FocusNode? f1;
   FirebaseAuth _auth = FirebaseAuth.instance;
-  User user;
-  String UserID;
+  User? user;
+  String? UserID;
 
   Future<void> _getUser() async {
     user = _auth.currentUser;
-    UserID = user.uid;
+    UserID = user?.uid ?? "";
   }
 
   @override
@@ -81,7 +85,7 @@ class _UpdateUserDetailsState extends State<UpdateUserDetails> {
                     },
                     textInputAction: TextInputAction.done,
                     validator: (value) {
-                      if (value.isEmpty)
+                      if (value!.isEmpty)
                         return 'Please Enter the ' + widget.label;
                       return null;
                     },
@@ -103,8 +107,8 @@ class _UpdateUserDetailsState extends State<UpdateUserDetails> {
                 },
                 style: ElevatedButton.styleFrom(
                   elevation: 2,
-                  primary: Colors.indigo.withOpacity(0.9),
-                  onPrimary: Colors.black,
+                  backgroundColor: Colors.indigo.withOpacity(0.9),
+                  foregroundColor: Colors.black,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(32.0),
                   ),
@@ -129,9 +133,8 @@ class _UpdateUserDetailsState extends State<UpdateUserDetails> {
       widget.field: _textcontroller.text,
     }, SetOptions(merge: true));
     if (widget.field.compareTo('name') == 0) {
-      await user.updateProfile(displayName: _textcontroller.text);
+      await user!.updateDisplayName(_textcontroller.text);
     }
-    if (widget.field.compareTo('phone') == 0) {
-    }
+    if (widget.field.compareTo('phone') == 0) {}
   }
 }

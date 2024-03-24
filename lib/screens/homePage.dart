@@ -7,11 +7,11 @@ import 'package:health_and_doctor_appointment/carouselSlider.dart';
 import 'package:health_and_doctor_appointment/screens/exploreList.dart';
 import 'package:health_and_doctor_appointment/firestore-data/searchList.dart';
 import 'package:health_and_doctor_appointment/firestore-data/topRatedList.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController _doctorName = TextEditingController();
   FirebaseAuth _auth = FirebaseAuth.instance;
-  User user;
+  User? user;
 
   Future<void> _getUser() async {
     user = _auth.currentUser;
@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    String _message;
+    String _message = "";
     DateTime now = DateTime.now();
     String _currentHour = DateFormat('kk').format(now);
     int hour = int.parse(_currentHour);
@@ -111,8 +111,7 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: NotificationListener<OverscrollIndicatorNotification>(
           onNotification: (OverscrollIndicatorNotification overscroll) {
-            overscroll.disallowGlow();
-            return;
+            return overscroll.leading;
           },
           child: ListView(
             physics: ClampingScrollPhysics(),
@@ -127,7 +126,7 @@ class _HomePageState extends State<HomePage> {
                     alignment: Alignment.centerLeft,
                     padding: EdgeInsets.only(left: 20, bottom: 10),
                     child: Text(
-                      "Hello " + user.displayName,
+                      "Hello " + (user?.displayName ?? ""),
                       style: GoogleFonts.lato(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
@@ -167,14 +166,14 @@ class _HomePageState extends State<HomePage> {
                         ),
                         suffixIcon: Container(
                           decoration: BoxDecoration(
-                            color: Colors.blue[900].withOpacity(0.9),
+                            color: Colors.blue[900]!.withOpacity(0.9),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: IconButton(
                             iconSize: 20,
                             splashRadius: 20,
                             color: Colors.white,
-                            icon: Icon(FlutterIcons.search1_ant),
+                            icon: Icon(Bootstrap.search),
                             onPressed: () {},
                           ),
                         ),
@@ -248,7 +247,7 @@ class _HomePageState extends State<HomePage> {
                               color: Color(cards[index].cardBackground),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey[400],
+                                  color: Colors.grey.shade400,
                                   blurRadius: 4.0,
                                   spreadRadius: 0.0,
                                   offset: Offset(3, 3),
@@ -260,7 +259,7 @@ class _HomePageState extends State<HomePage> {
                               // ),
                               ),
                           // ignore: deprecated_member_use
-                          child: FlatButton(
+                          child: ElevatedButton(
                             onPressed: () {
                               Navigator.push(
                                 context,
@@ -270,8 +269,12 @@ class _HomePageState extends State<HomePage> {
                                         )),
                               );
                             },
-                            shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(20)),
+                            style: ButtonStyle(
+                                shape: MaterialStatePropertyAll(
+                              RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(20),
+                              ),
+                            )),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -280,14 +283,14 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 Container(
                                   child: CircleAvatar(
-                                      backgroundColor: Colors.white,
-                                      radius: 29,
-                                      child: Icon(
-                                        cards[index].cardIcon,
-                                        size: 26,
-                                        color:
-                                            Color(cards[index].cardBackground),
-                                      )),
+                                    backgroundColor: Colors.white,
+                                    radius: 29,
+                                    child: Icon(
+                                      cards[index].cardIcon,
+                                      size: 26,
+                                      color: Color(cards[index].cardBackground),
+                                    ),
+                                  ),
                                 ),
                                 SizedBox(
                                   height: 10,

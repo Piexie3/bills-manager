@@ -11,7 +11,7 @@ class UserDetails extends StatefulWidget {
 
 class _UserDetailsState extends State<UserDetails> {
   FirebaseAuth _auth = FirebaseAuth.instance;
-  User user;
+  User? user;
 
   Future<void> _getUser() async {
     user = _auth.currentUser;
@@ -48,7 +48,7 @@ class _UserDetailsState extends State<UserDetails> {
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('users')
-            .doc(user.uid)
+            .doc(user?.uid ?? "")
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
@@ -97,9 +97,7 @@ class _UserDetailsState extends State<UserDetails> {
                             ),
                           ),
                           Text(
-                            userData[value[index]]?.isEmpty ?? true
-                                ? 'Not Added'
-                                : userData[value[index]],
+                            userData?[value[index]] ?? "",
                             style: GoogleFonts.lato(
                               color: Colors.black54,
                               fontSize: 15,

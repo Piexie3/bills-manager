@@ -1,15 +1,13 @@
-import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:health_and_doctor_appointment/firestore-data/appointmentHistoryList.dart';
 import 'package:health_and_doctor_appointment/screens/userSettings.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 class UserProfile extends StatefulWidget {
-  const UserProfile({Key key}) : super(key: key);
+  const UserProfile({super.key});
 
   @override
   _UserProfileState createState() => _UserProfileState();
@@ -18,7 +16,7 @@ class UserProfile extends StatefulWidget {
 class _UserProfileState extends State<UserProfile> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   FirebaseAuth _auth = FirebaseAuth.instance;
-  User user;
+  User? user;
 
   Future<void> _getUser() async {
     user = _auth.currentUser;
@@ -36,8 +34,7 @@ class _UserProfileState extends State<UserProfile> {
       body: SafeArea(
         child: NotificationListener<OverscrollIndicatorNotification>(
           onNotification: (OverscrollIndicatorNotification overscroll) {
-            overscroll.disallowGlow();
-            return;
+            return overscroll.leading;
           },
           child: ListView(
             physics: ClampingScrollPhysics(),
@@ -66,7 +63,7 @@ class _UserProfileState extends State<UserProfile> {
                           alignment: Alignment.topRight,
                           child: IconButton(
                             icon: Icon(
-                              FlutterIcons.gear_faw,
+                              Bootstrap.gear,
                               color: Colors.white,
                               size: 20,
                             ),
@@ -86,7 +83,7 @@ class _UserProfileState extends State<UserProfile> {
                         height: MediaQuery.of(context).size.height / 5,
                         padding: EdgeInsets.only(top: 75),
                         child: Text(
-                          user.displayName,
+                          user?.displayName ?? "",
                           style: GoogleFonts.lato(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
@@ -103,7 +100,7 @@ class _UserProfileState extends State<UserProfile> {
                     ),
                     decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colors.teal[50],
+                          color: Colors.teal,
                           width: 5,
                         ),
                         shape: BoxShape.circle),
@@ -142,7 +139,7 @@ class _UserProfileState extends State<UserProfile> {
                           width: 10,
                         ),
                         Text(
-                          user.email,
+                          user?.email ?? "",
                           style: GoogleFonts.lato(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -174,9 +171,7 @@ class _UserProfileState extends State<UserProfile> {
                           width: 10,
                         ),
                         Text(
-                          user?.phoneNumber?.isEmpty ?? true
-                              ? "Not Added"
-                              : user.phoneNumber,
+                          user?.phoneNumber ?? "Not Added",
                           style: GoogleFonts.lato(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -208,7 +203,7 @@ class _UserProfileState extends State<UserProfile> {
                             width: 27,
                             color: Colors.indigo[600],
                             child: Icon(
-                              FlutterIcons.pencil_ent,
+                              Bootstrap.pencil,
                               color: Colors.white,
                               size: 16,
                             ),
@@ -253,7 +248,7 @@ class _UserProfileState extends State<UserProfile> {
                             width: 27,
                             color: Colors.green[900],
                             child: Icon(
-                              FlutterIcons.history_faw,
+                              Icons.history,
                               color: Colors.white,
                               size: 16,
                             ),
@@ -315,7 +310,7 @@ class _UserProfileState extends State<UserProfile> {
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('users')
-          .doc(user.uid)
+          .doc(user?.uid ?? '')
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData)
@@ -327,7 +322,7 @@ class _UserProfileState extends State<UserProfile> {
           alignment: Alignment.centerLeft,
           padding: EdgeInsets.only(top: 10, left: 40),
           child: Text(
-            userData['bio'] == null ? "No Bio" : userData['bio'],
+            userData?['bio'] == null ? "No Bio" : userData?['bio'] ?? "",
             style: GoogleFonts.lato(
               fontSize: 16,
               fontWeight: FontWeight.w500,

@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:health_and_doctor_appointment/screens/register.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 import '../mainPage.dart';
 
@@ -31,8 +31,7 @@ class _SignInState extends State<SignIn> {
         return SafeArea(
           child: NotificationListener<OverscrollIndicatorNotification>(
             onNotification: (OverscrollIndicatorNotification overscroll) {
-              overscroll.disallowGlow();
-              return;
+              return overscroll.leading;
             },
             child: SingleChildScrollView(
               child: Column(
@@ -109,7 +108,7 @@ class _SignInState extends State<SignIn> {
               },
               textInputAction: TextInputAction.next,
               validator: (value) {
-                if (value.isEmpty) {
+                if (value!.isEmpty) {
                   return 'Please enter the Email';
                 } else if (!emailValidate(value)) {
                   return 'Please enter correct Email';
@@ -150,7 +149,10 @@ class _SignInState extends State<SignIn> {
               },
               textInputAction: TextInputAction.done,
               validator: (value) {
-                if (value.isEmpty) return 'Please enter the Passord';
+                if (value != null) {
+                  if (value.isEmpty) return 'Please enter the Passord';
+                  return null;
+                }
                 return null;
               },
               obscureText: true,
@@ -171,15 +173,15 @@ class _SignInState extends State<SignIn> {
                     ),
                   ),
                   onPressed: () async {
-                    if (_formKey.currentState.validate()) {
+                    if (_formKey.currentState!.validate()) {
                       showLoaderDialog(context);
                       _signInWithEmailAndPassword();
                     }
                   },
                   style: ElevatedButton.styleFrom(
                     elevation: 2,
-                    primary: Colors.indigo[900],
-                    onPrimary: Colors.black,
+                    backgroundColor: Colors.indigo[900],
+                    foregroundColor: Colors.black,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(32.0),
                     ),
@@ -215,7 +217,7 @@ class _SignInState extends State<SignIn> {
                         borderRadius: BorderRadius.circular(32)),
                     child: IconButton(
                       icon: Icon(
-                        FlutterIcons.google_ant,
+                        AntDesign.google_circle_fill,
                         color: Colors.white,
                       ),
                       onPressed: () {},
@@ -230,7 +232,7 @@ class _SignInState extends State<SignIn> {
                         borderRadius: BorderRadius.circular(32)),
                     child: IconButton(
                       icon: Icon(
-                        FlutterIcons.facebook_f_faw,
+                        AntDesign.facebook_fill,
                         color: Colors.white,
                       ),
                       onPressed: () {},
@@ -315,12 +317,12 @@ class _SignInState extends State<SignIn> {
 
   void _signInWithEmailAndPassword() async {
     try {
-      final User user = (await _auth.signInWithEmailAndPassword(
+      final User? user = (await _auth.signInWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       ))
           .user;
-      if (!user.emailVerified) {
+      if (!user!.emailVerified) {
         await user.sendEmailVerification();
       }
       Navigator.of(context)

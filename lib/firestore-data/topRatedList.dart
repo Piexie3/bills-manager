@@ -10,7 +10,6 @@ class TopRatedList extends StatefulWidget {
 }
 
 class _TopRatedListState extends State<TopRatedList> {
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -28,9 +27,9 @@ class _TopRatedListState extends State<TopRatedList> {
             scrollDirection: Axis.vertical,
             physics: ClampingScrollPhysics(),
             shrinkWrap: true,
-            itemCount: 5,
+            itemCount: snapshot.data?.docs.length??0,
             itemBuilder: (context, index) {
-              DocumentSnapshot doctor = snapshot.data.docs[index];
+              DocumentSnapshot doctor = snapshot.data!.docs[index];
               return Padding(
                 padding: const EdgeInsets.only(top: 3.0),
                 child: Card(
@@ -100,7 +99,9 @@ class _TopRatedListState extends State<TopRatedList> {
                                     size: 20,
                                     color: Colors.indigo[400],
                                   ),
-                                  SizedBox(width: 3,),
+                                  SizedBox(
+                                    width: 3,
+                                  ),
                                   Text(
                                     doctor['rating'].toString(),
                                     style: GoogleFonts.lato(

@@ -90,10 +90,9 @@ class _FireBaseAuthState extends State<FireBaseAuth> {
                               onPressed: () => _pushPage(context, SignIn()),
                               style: ElevatedButton.styleFrom(
                                 elevation: 2,
-                                primary: Colors.indigo[800],
-                                onPrimary: Colors.indigo[800],
+                                backgroundColor: Colors.indigo[800],
+                                foregroundColor: Colors.indigo[800],
                                 shape: RoundedRectangleBorder(
-                                  
                                   borderRadius: BorderRadius.circular(32.0),
                                 ),
                               ),
@@ -119,10 +118,9 @@ class _FireBaseAuthState extends State<FireBaseAuth> {
                               onPressed: () => _pushPage(context, Register()),
                               style: ElevatedButton.styleFrom(
                                 elevation: 2,
-                                primary: Colors.white,
-                                onPrimary: Colors.white,
+                                backgroundColor: Colors.white,
+                                foregroundColor: Colors.white,
                                 shape: RoundedRectangleBorder(
-                                  
                                   borderRadius: BorderRadius.circular(32.0),
                                 ),
                               ),

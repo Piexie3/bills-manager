@@ -12,7 +12,7 @@ class _UserSettingsState extends State<UserSettings> {
   UserDetails detail = new UserDetails();
 
   FirebaseAuth _auth = FirebaseAuth.instance;
-  User user;
+  User? user;
 
   Future<void> _getUser() async {
     user = _auth.currentUser;
@@ -69,7 +69,7 @@ class _UserSettingsState extends State<UserSettings> {
                     '/login', (Route<dynamic> route) => false);
                 _signOut();
               },
-              style: TextButton.styleFrom(primary: Colors.grey),
+              style: TextButton.styleFrom(backgroundColor: Colors.grey),
               child: Text(
                 'Sign out',
                 style: GoogleFonts.lato(

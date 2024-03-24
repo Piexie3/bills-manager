@@ -11,8 +11,8 @@ class AppointmentHistoryList extends StatefulWidget {
 
 class _AppointmentHistoryListState extends State<AppointmentHistoryList> {
   FirebaseAuth _auth = FirebaseAuth.instance;
-  User user;
-  String _documentID;
+  User? user;
+  String? _documentID;
 
   Future<void> _getUser() async {
     user = _auth.currentUser;
@@ -27,7 +27,7 @@ class _AppointmentHistoryListState extends State<AppointmentHistoryList> {
   Future<void> deleteAppointment(String docID) {
     return FirebaseFirestore.instance
         .collection('appointments')
-        .doc(user.email.toString())
+        .doc(user?.email.toString() ?? "")
         .collection('all')
         .doc(docID)
         .delete();
@@ -51,7 +51,7 @@ class _AppointmentHistoryListState extends State<AppointmentHistoryList> {
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('appointments')
-            .doc(user.email.toString())
+            .doc(user?.email.toString() ?? "")
             .collection('all')
             .orderBy('date', descending: true)
             .snapshots(),
@@ -61,7 +61,7 @@ class _AppointmentHistoryListState extends State<AppointmentHistoryList> {
               child: CircularProgressIndicator(),
             );
           }
-          return snapshot.data.size == 0
+          return (snapshot.data?.size ?? 0) == 0
               ? Text(
                   'History Appears here...',
                   style: GoogleFonts.lato(
@@ -73,9 +73,9 @@ class _AppointmentHistoryListState extends State<AppointmentHistoryList> {
                   scrollDirection: Axis.vertical,
                   physics: ClampingScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: snapshot.data.size,
+                  itemCount: snapshot.data!.size,
                   itemBuilder: (context, index) {
-                    DocumentSnapshot document = snapshot.data.docs[index];
+                    DocumentSnapshot document = snapshot.data!.docs[index];
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

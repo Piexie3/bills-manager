@@ -11,8 +11,8 @@ class MyAppointmentList extends StatefulWidget {
 
 class _MyAppointmentListState extends State<MyAppointmentList> {
   FirebaseAuth _auth = FirebaseAuth.instance;
-  User user;
-  String _documentID;
+  User? user;
+  String _documentID = "";
 
   Future<void> _getUser() async {
     user = _auth.currentUser;
@@ -21,7 +21,7 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
   Future<void> deleteAppointment(String docID) {
     return FirebaseFirestore.instance
         .collection('appointments')
-        .doc(user.email.toString())
+        .doc(user?.email.toString() ?? "")
         .collection('pending')
         .doc(docID)
         .delete();
@@ -105,7 +105,7 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('appointments')
-            .doc(user.email.toString())
+            .doc(user?.email.toString() ?? "")
             .collection('pending')
             .orderBy('date')
             .snapshots(),
@@ -115,7 +115,7 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
               child: CircularProgressIndicator(),
             );
           }
-          return snapshot.data.size == 0
+          return (snapshot.data?.size ?? "") == 0
               ? Center(
                   child: Text(
                     'No Appointment Scheduled',
@@ -129,9 +129,9 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
                   scrollDirection: Axis.vertical,
                   physics: ClampingScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: snapshot.data.size,
+                  itemCount: snapshot.data?.size ?? 0,
                   itemBuilder: (context, index) {
-                    DocumentSnapshot document = snapshot.data.docs[index];
+                    DocumentSnapshot document = snapshot.data!.docs[index];
                     print(_compareDate(document['date'].toDate().toString()));
                     if (_checkDiff(document['date'].toDate())) {
                       deleteAppointment(document.id);

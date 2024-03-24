@@ -1,36 +1,26 @@
 {
   "project_info": {
-    "project_number": "814659518735",
-    "project_id": "medico-flutter",
-    "storage_bucket": "medico-flutter.appspot.com"
+    "project_number": "69949513569",
+    "project_id": "appointment-app-b1474",
+    "storage_bucket": "appointment-app-b1474.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:814659518735:android:1c3bb04b7b1bc9903b7e7a",
+        "mobilesdk_app_id": "1:69949513569:android:86f3bf1d076b3a08bf2f20",
         "android_client_info": {
           "package_name": "com.example.health_and_doctor_appointment"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "814659518735-t1tjd40b5r86ujajcqqeebcah1m46va9.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAgRPqJ2UmIDYZdSxxQcqoLDd19WhS0f2Q"
+          "current_key": "AIzaSyAs9ii6kZwRr9906vzhQ7TpZFPbX9QsHh8"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "814659518735-t1tjd40b5r86ujajcqqeebcah1m46va9.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
