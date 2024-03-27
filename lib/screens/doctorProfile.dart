@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:health_and_doctor_appointment/screens/bookingScreen.dart';
+import 'package:health_and_doctor_appointment/screens/addBillsScreen.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -259,9 +259,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => BookingScreen(
-                                    doctor: document['name'],
-                                  ),
+                                  builder: (context) => AddBillsScreen(),
                                 ),
                               );
                             },

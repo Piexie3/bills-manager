@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-class MyAppointmentList extends StatefulWidget {
+class MyBillList extends StatefulWidget {
   @override
-  _MyAppointmentListState createState() => _MyAppointmentListState();
+  _MyBillListState createState() => _MyBillListState();
 }
 
-class _MyAppointmentListState extends State<MyAppointmentList> {
+class _MyBillListState extends State<MyBillList> {
   FirebaseAuth _auth = FirebaseAuth.instance;
   User? user;
   String _documentID = "";
@@ -20,9 +20,9 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
 
   Future<void> deleteAppointment(String docID) {
     return FirebaseFirestore.instance
-        .collection('appointments')
+        .collection('users')
         .doc(user?.email.toString() ?? "")
-        .collection('pending')
+        .collection('bills')
         .doc(docID)
         .delete();
   }
@@ -58,7 +58,7 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Confirm Delete"),
-      content: Text("Are you sure you want to delete this Appointment?"),
+      content: Text("Are you sure you want to delete this Bill?"),
       actions: [
         cancelButton,
         continueButton,
@@ -104,10 +104,10 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
     return SafeArea(
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
-            .collection('appointments')
-            .doc(user?.email.toString() ?? "")
-            .collection('pending')
-            .orderBy('date')
+            .collection('users')
+            .doc(user?.uid ?? "")
+            .collection('bills')
+            .orderBy('duedate')
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
@@ -118,7 +118,7 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
           return (snapshot.data?.size ?? "") == 0
               ? Center(
                   child: Text(
-                    'No Appointment Scheduled',
+                    'No Bills Created',
                     style: GoogleFonts.lato(
                       color: Colors.grey,
                       fontSize: 18,
@@ -132,10 +132,6 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
                   itemCount: snapshot.data?.size ?? 0,
                   itemBuilder: (context, index) {
                     DocumentSnapshot document = snapshot.data!.docs[index];
-                    print(_compareDate(document['date'].toDate().toString()));
-                    if (_checkDiff(document['date'].toDate())) {
-                      deleteAppointment(document.id);
-                    }
                     return Card(
                       elevation: 2,
                       child: InkWell(
@@ -147,7 +143,7 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 5),
                                 child: Text(
-                                  document['doctor'],
+                                  document['name'],
                                   style: GoogleFonts.lato(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -156,7 +152,7 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
                               ),
                               Text(
                                 _compareDate(
-                                        document['date'].toDate().toString())
+                                        document['duedate'].toDate().toString())
                                     ? "TODAY"
                                     : "",
                                 style: GoogleFonts.lato(
@@ -173,7 +169,7 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
                             padding: const EdgeInsets.only(left: 5),
                             child: Text(
                               _dateFormatter(
-                                  document['date'].toDate().toString()),
+                                  document['duedate'].toDate().toString()),
                               style: GoogleFonts.lato(),
                             ),
                           ),
@@ -190,7 +186,27 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Patient name: " + document['name'],
+                                        "Bill name: " + document['name'],
+                                        style: GoogleFonts.lato(
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      SizedBox(
+                                        child: Text(
+                                          document['description'],
+                                          style: GoogleFonts.lato(
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        "Bill price: " + document['price'],
                                         style: GoogleFonts.lato(
                                           fontSize: 16,
                                         ),
@@ -199,9 +215,9 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
                                         height: 10,
                                       ),
                                       Text(
-                                        "Time: " +
+                                        "Due time: " +
                                             _timeFormatter(
-                                              document['date']
+                                              document['duedate']
                                                   .toDate()
                                                   .toString(),
                                             ),
@@ -212,7 +228,7 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
                                     ],
                                   ),
                                   IconButton(
-                                    tooltip: 'Delete Appointment',
+                                    tooltip: 'Delete Bill',
                                     icon: Icon(
                                       Icons.delete,
                                       color: Colors.black87,

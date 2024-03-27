@@ -44,38 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDdApk025iiG_f6BmCd17221Lji8idjRbw',
-    appId: '1:69949513569:web:abb382dc7fa84564bf2f20',
-    messagingSenderId: '69949513569',
-    projectId: 'appointment-app-b1474',
-    authDomain: 'appointment-app-b1474.firebaseapp.com',
-    storageBucket: 'appointment-app-b1474.appspot.com',
-    measurementId: 'G-NK6FL5WGF0',
+    apiKey: 'AIzaSyBV59TIynkSukOu9D-d34L1Y8LbIw4ZiCs',
+    appId: '1:528423788099:web:dd64d5ff2c433cc9c93ef6',
+    messagingSenderId: '528423788099',
+    projectId: 'flutter-fcm-1b28b',
+    authDomain: 'flutter-fcm-1b28b.firebaseapp.com',
+    storageBucket: 'flutter-fcm-1b28b.appspot.com',
+    measurementId: 'G-M6N361V36W',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAs9ii6kZwRr9906vzhQ7TpZFPbX9QsHh8',
-    appId: '1:69949513569:android:86f3bf1d076b3a08bf2f20',
-    messagingSenderId: '69949513569',
-    projectId: 'appointment-app-b1474',
-    storageBucket: 'appointment-app-b1474.appspot.com',
+    apiKey: 'AIzaSyCtk1lM6WjJHmAE4st31oLCUtD9VE0nKJQ',
+    appId: '1:528423788099:android:a86d9249abba258ec93ef6',
+    messagingSenderId: '528423788099',
+    projectId: 'flutter-fcm-1b28b',
+    storageBucket: 'flutter-fcm-1b28b.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCF3FM0VXe0h8AzHQGP69hZR5VunE0Gink',
-    appId: '1:69949513569:ios:2bcfb2206dd8d734bf2f20',
-    messagingSenderId: '69949513569',
-    projectId: 'appointment-app-b1474',
-    storageBucket: 'appointment-app-b1474.appspot.com',
+    apiKey: 'AIzaSyD4QupXSa3DfTReyikpvvyHE_2B_C82Qy8',
+    appId: '1:528423788099:ios:64ea09bdfa223bc3c93ef6',
+    messagingSenderId: '528423788099',
+    projectId: 'flutter-fcm-1b28b',
+    storageBucket: 'flutter-fcm-1b28b.appspot.com',
     iosBundleId: 'com.example.healthAndDoctorAppointment',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCF3FM0VXe0h8AzHQGP69hZR5VunE0Gink',
-    appId: '1:69949513569:ios:9ad1212215e4ce18bf2f20',
-    messagingSenderId: '69949513569',
-    projectId: 'appointment-app-b1474',
-    storageBucket: 'appointment-app-b1474.appspot.com',
+    apiKey: 'AIzaSyD4QupXSa3DfTReyikpvvyHE_2B_C82Qy8',
+    appId: '1:528423788099:ios:9289c29abb1ac926c93ef6',
+    messagingSenderId: '528423788099',
+    projectId: 'flutter-fcm-1b28b',
+    storageBucket: 'flutter-fcm-1b28b.appspot.com',
     iosBundleId: 'com.example.healthAndDoctorAppointment.RunnerTests',
   );
 }

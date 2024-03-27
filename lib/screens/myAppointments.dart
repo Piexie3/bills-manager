@@ -3,13 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:health_and_doctor_appointment/firestore-data/myAppointmentList.dart';
+import 'package:health_and_doctor_appointment/screens/addBillsScreen.dart';
 
-class MyAppointments extends StatefulWidget {
+class MyBills extends StatefulWidget {
   @override
-  _MyAppointmentsState createState() => _MyAppointmentsState();
+  _MyBillsState createState() => _MyBillsState();
 }
 
-class _MyAppointmentsState extends State<MyAppointments> {
+class _MyBillsState extends State<MyBills> {
   FirebaseAuth _auth = FirebaseAuth.instance;
   User? user;
 
@@ -33,7 +34,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
           alignment: Alignment.center,
           padding: EdgeInsets.symmetric(vertical: 10),
           child: Text(
-            'My Appointments',
+            'My Bills',
             style: GoogleFonts.lato(
               color: Colors.black,
               fontWeight: FontWeight.bold,
@@ -42,9 +43,14 @@ class _MyAppointmentsState extends State<MyAppointments> {
         ),
         iconTheme: IconThemeData(color: Colors.black),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.push(
+            context, MaterialPageRoute(builder: (context) => AddBillsScreen())),
+        child: Icon(Icons.add),
+      ),
       body: Container(
         padding: EdgeInsets.only(right: 10, left: 10, top: 10),
-        child: MyAppointmentList(),
+        child: MyBillList(),
       ),
     );
   }

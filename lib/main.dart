@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:health_and_doctor_appointment/firebase_options.dart';
+import 'package:health_and_doctor_appointment/notification.dart';
 import 'package:health_and_doctor_appointment/screens/doctorProfile.dart';
 import 'package:health_and_doctor_appointment/screens/firebaseAuth.dart';
 import 'package:health_and_doctor_appointment/mainPage.dart';
@@ -22,12 +23,26 @@ Future<void> main() async {
 }
 
 // ignore: must_be_immutable
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   FirebaseAuth _auth = FirebaseAuth.instance;
+
   User? user;
 
   Future<void> _getUser() async {
     user = _auth.currentUser;
+  }
+
+  final NotificationSetUp _noti = NotificationSetUp();
+  @override
+  void initState() {
+    super.initState();
+    _noti.configurePushNotifications(context);
+    _noti.eventListnerCallback(context);
   }
 
   @override
@@ -56,7 +71,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => FireBaseAuth(),
         '/home': (context) => MainPage(),
         '/profile': (context) => UserProfile(),
-        '/MyAppointments': (context) => MyAppointments(),
+        '/MyAppointments': (context) => MyBills(),
         '/DoctorProfile': (context) => DoctorProfile(
               doctor: "Manu",
             ),

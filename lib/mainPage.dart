@@ -21,9 +21,8 @@ class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
   List<Widget> _pages = [
     HomePage(),
-    DoctorsList(),
     //Center(child: Text('New Appointment')),
-    MyAppointments(),
+    MyBills(),
     UserProfile(),
   ];
 
@@ -96,20 +95,16 @@ class _MainPageState extends State<MainPage> {
                   GButton(
                     iconSize: _selectedIndex != 0 ? 28 : 25,
                     icon: _selectedIndex == 0
-                        ? Bootstrap.house_exclamation
-                        : Bootstrap.house_exclamation,
+                        ? Bootstrap.house
+                        : Bootstrap.house_x,
                     text: 'Home',
-                  ),
-                  GButton(
-                    icon: OctIcons.search,
-                    text: 'Search',
                   ),
                   GButton(
                     iconSize: 28,
                     icon: _selectedIndex == 2
                         ? Typicons.calendar
                         : Typicons.calendar_outline,
-                    text: 'Schedule',
+                    text: 'My Bils',
                   ),
                   GButton(
                     iconSize: 29,

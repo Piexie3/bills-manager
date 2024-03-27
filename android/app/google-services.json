@@ -1,13 +1,32 @@
 {
   "project_info": {
-    "project_number": "69949513569",
-    "project_id": "appointment-app-b1474",
-    "storage_bucket": "appointment-app-b1474.appspot.com"
+    "project_number": "528423788099",
+    "project_id": "flutter-fcm-1b28b",
+    "storage_bucket": "flutter-fcm-1b28b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:69949513569:android:86f3bf1d076b3a08bf2f20",
+        "mobilesdk_app_id": "1:528423788099:android:87dce635eace9781c93ef6",
+        "android_client_info": {
+          "package_name": "com.example.fcm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtk1lM6WjJHmAE4st31oLCUtD9VE0nKJQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528423788099:android:a86d9249abba258ec93ef6",
         "android_client_info": {
           "package_name": "com.example.health_and_doctor_appointment"
         }
@@ -15,7 +34,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAs9ii6kZwRr9906vzhQ7TpZFPbX9QsHh8"
+          "current_key": "AIzaSyCtk1lM6WjJHmAE4st31oLCUtD9VE0nKJQ"
         }
       ],
       "services": {

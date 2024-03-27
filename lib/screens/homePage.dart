@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/painting.dart';
 import 'package:health_and_doctor_appointment/firestore-data/notificationList.dart';
 import 'package:health_and_doctor_appointment/model/cardModel.dart';
@@ -137,74 +139,75 @@ class _HomePageState extends State<HomePage> {
                     alignment: Alignment.centerLeft,
                     padding: EdgeInsets.only(left: 20, bottom: 25),
                     child: Text(
-                      "Let's Find Your\nDoctor",
+                      "Let's Keep your\nBills",
                       style: GoogleFonts.lato(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(20, 0, 20, 25),
-                    child: TextFormField(
-                      textInputAction: TextInputAction.search,
-                      controller: _doctorName,
-                      decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.only(left: 20, top: 10, bottom: 10),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                          borderSide: BorderSide.none,
-                        ),
-                        filled: true,
-                        fillColor: Colors.grey[200],
-                        hintText: 'Search doctor',
-                        hintStyle: GoogleFonts.lato(
-                          color: Colors.black26,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                        ),
-                        suffixIcon: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.blue[900]!.withOpacity(0.9),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: IconButton(
-                            iconSize: 20,
-                            splashRadius: 20,
-                            color: Colors.white,
-                            icon: Icon(Bootstrap.search),
-                            onPressed: () {},
-                          ),
-                        ),
-                      ),
-                      style: GoogleFonts.lato(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w800,
-                      ),
-                      onFieldSubmitted: (String value) {
-                        setState(
-                          () {
-                            value.length == 0
-                                ? Container()
-                                : Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SearchList(
-                                        searchKey: value,
-                                      ),
-                                    ),
-                                  );
-                          },
-                        );
-                      },
-                    ),
-                  ),
+                  // Container(
+                  //   padding: EdgeInsets.fromLTRB(20, 0, 20, 25),
+                  //   child: TextFormField(
+                  //     textInputAction: TextInputAction.search,
+                  //     controller: _doctorName,
+                  //     decoration: InputDecoration(
+                  //       contentPadding:
+                  //           EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                  //       border: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                  //         borderSide: BorderSide.none,
+                  //       ),
+                  //       filled: true,
+                  //       fillColor: Colors.grey[200],
+                  //       hintText: 'Search doctor',
+                  //       hintStyle: GoogleFonts.lato(
+                  //         color: Colors.black26,
+                  //         fontSize: 18,
+                  //         fontWeight: FontWeight.w800,
+                  //       ),
+                  //       suffixIcon: Container(
+                  //         decoration: BoxDecoration(
+                  //           color: Colors.blue[900]!.withOpacity(0.9),
+                  //           borderRadius: BorderRadius.circular(20),
+                  //         ),
+                  //         child: IconButton(
+                  //           iconSize: 20,
+                  //           splashRadius: 20,
+                  //           color: Colors.white,
+                  //           icon: Icon(Bootstrap.search),
+                  //           onPressed: () {},
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     style: GoogleFonts.lato(
+                  //       fontSize: 18,
+                  //       fontWeight: FontWeight.w800,
+                  //     ),
+                  //     onFieldSubmitted: (String value) {
+                  //       setState(
+                  //         () {
+                  //           value.length == 0
+                  //               ? Container()
+                  //               : Navigator.push(
+                  //                   context,
+                  //                   MaterialPageRoute(
+                  //                     builder: (context) => SearchList(
+                  //                       searchKey: value,
+                  //                     ),
+                  //                   ),
+                  //                 );
+                  //         },
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
+
                   Container(
                     padding: EdgeInsets.only(left: 23, bottom: 10),
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "We care for you",
+                      "Upcoming bills",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.lato(
                           color: Colors.blue[800],
@@ -212,114 +215,49 @@ class _HomePageState extends State<HomePage> {
                           fontSize: 18),
                     ),
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Carouselslider(),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(left: 20),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Specialists",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.lato(
-                          color: Colors.blue[800],
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18),
-                    ),
-                  ),
-                  Container(
-                    height: 150,
-                    padding: EdgeInsets.only(top: 14),
-                    child: ListView.builder(
-                      physics: ClampingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      padding: EdgeInsets.symmetric(horizontal: 20.0),
-                      itemCount: cards.length,
-                      itemBuilder: (context, index) {
-                        //print("images path: ${cards[index].cardImage.toString()}");
-                        return Container(
-                          margin: EdgeInsets.only(right: 14),
-                          height: 150,
-                          width: 140,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Color(cards[index].cardBackground),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.shade400,
-                                  blurRadius: 4.0,
-                                  spreadRadius: 0.0,
-                                  offset: Offset(3, 3),
-                                ),
-                              ]
-                              // image: DecorationImage(
-                              //   image: AssetImage(cards[index].cardImage),
-                              //   fit: BoxFit.fill,
-                              // ),
-                              ),
-                          // ignore: deprecated_member_use
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ExploreList(
-                                          type: cards[index].doctor,
-                                        )),
-                              );
-                            },
-                            style: ButtonStyle(
-                                shape: MaterialStatePropertyAll(
-                              RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(20),
-                              ),
-                            )),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  height: 16,
-                                ),
-                                Container(
-                                  child: CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    radius: 29,
-                                    child: Icon(
-                                      cards[index].cardIcon,
-                                      size: 26,
-                                      color: Color(cards[index].cardBackground),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  alignment: Alignment.bottomCenter,
-                                  child: Text(
-                                    cards[index].doctor,
-                                    style: GoogleFonts.lato(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                ),
-                              ],
-                            ),
+                  StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(user?.uid ?? "")
+                        .collection("bills")
+                        .orderBy('duedate', descending: true)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return CarouselSlider.builder(
+                          itemCount: snapshot.data?.docs.length ?? 0,
+                          itemBuilder: (context, index, realIndex) {
+                            return Carouselslider(
+                              data: snapshot.data!.docs[index].data(),
+                              index: index,
+                            );
+                          },
+                          options: CarouselOptions(
+                            autoPlay: true,
+                            enlargeCenterPage: true,
+                            enableInfiniteScroll: false,
+                            scrollPhysics: ClampingScrollPhysics(),
                           ),
                         );
-                      },
-                    ),
+                      } else if (snapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      return Center(
+                        child: Text(
+                          "You Don't have an upcoming bills please add your bills",
+                        ),
+                      );
+                    },
                   ),
-                  SizedBox(
-                    height: 30,
-                  ),
+
                   Container(
                     padding: EdgeInsets.only(left: 20),
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Top Rated",
+                      "My Bills",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.lato(
                           color: Colors.blue[800],
@@ -327,16 +265,71 @@ class _HomePageState extends State<HomePage> {
                           fontSize: 18),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(left: 15, right: 15),
-                    child: TopRatedList(),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
+                  StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(user?.uid ?? "")
+                          .collection("bills")
+                          .orderBy('duedate', descending: true)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        return Container(
+                          height: 140,
+                          padding: EdgeInsets.only(top: 14),
+                          child: ListView.builder(
+                            physics: ClampingScrollPhysics(),
+                            padding: EdgeInsets.symmetric(horizontal: 20.0),
+                            itemCount: snapshot.data?.docs.length ?? 0,
+                            itemBuilder: (context, index) {
+                              var data = snapshot.data?.docs[index].data();
+                              return Container(
+                                margin: EdgeInsets.symmetric(
+                                  vertical: 8,
+                                  // horizontal: 8,
+                                ),
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey,
+                                      spreadRadius: 1,
+                                      blurRadius: 2,
+                                    )
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Bill name: ${data?['name'] ?? ""}"),
+                                    Text(
+                                        "Company name: ${data?['company'] ?? ""}"),
+                                    SizedBox(
+                                      child: Text(
+                                          "Bill description: ${data?['description'] ?? ""}"),
+                                    ),
+                                    Text("Total Bill Price:"),
+                                    Text.rich(
+                                      TextSpan(children: [
+                                        TextSpan(children: [
+                                          TextSpan(text: "Total Bill Price: "),
+                                          TextSpan(
+                                            text: "KSH ${data?['price'] ?? ""}",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                            ),
+                                          ),
+                                        ]),
+                                      ]),
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      }),
                 ],
               ),
             ],

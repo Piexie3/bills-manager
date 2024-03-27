@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -256,8 +259,12 @@ class _RegisterState extends State<Register> {
                   ),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      showLoaderDialog(context);
-                      _registerAccount();
+                      if (Platform.isAndroid) {
+                        final String? token =
+                            await FirebaseMessaging.instance.getToken();
+                        showLoaderDialog(context);
+                        _registerAccount(deviceid: token ?? "");
+                      }
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -420,7 +427,7 @@ class _RegisterState extends State<Register> {
     }
   }
 
-  void _registerAccount() async {
+  void _registerAccount({required String deviceid}) async {
     User? user;
     UserCredential? credential;
 
@@ -454,6 +461,7 @@ class _RegisterState extends State<Register> {
         'phone': "",
         'bio': "",
         'city': "",
+        "deviceid": deviceid
       }, SetOptions(merge: true));
 
       Navigator.of(context)
