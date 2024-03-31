@@ -21,12 +21,7 @@ class _FireBaseAuthState extends State<FireBaseAuth> {
           Container(
             constraints: BoxConstraints.expand(),
             decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  "assets/image-medical.jpg",
-                ),
-                fit: BoxFit.cover,
-              ),
+              color: Color.fromARGB(255, 246, 25, 253),
             ),
           ),
           SafeArea(
@@ -46,7 +41,7 @@ class _FireBaseAuthState extends State<FireBaseAuth> {
                           fontWeight: FontWeight.w700),
                     ),
                     Text(
-                      'Welcome to Medico!',
+                      'Welcome to Bill Manager',
                       style: GoogleFonts.b612(
                           color: Colors.indigo[800],
                           fontSize: 17,

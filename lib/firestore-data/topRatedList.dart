@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:health_and_doctor_appointment/screens/doctorProfile.dart';
 import 'package:typicons_flutter/typicons_flutter.dart';
 
 class TopRatedList extends StatefulWidget {
@@ -27,7 +26,7 @@ class _TopRatedListState extends State<TopRatedList> {
             scrollDirection: Axis.vertical,
             physics: ClampingScrollPhysics(),
             shrinkWrap: true,
-            itemCount: snapshot.data?.docs.length??0,
+            itemCount: snapshot.data?.docs.length ?? 0,
             itemBuilder: (context, index) {
               DocumentSnapshot doctor = snapshot.data!.docs[index];
               return Padding(
@@ -43,16 +42,7 @@ class _TopRatedListState extends State<TopRatedList> {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height / 9,
                     child: TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DoctorProfile(
-                              doctor: doctor['name'],
-                            ),
-                          ),
-                        );
-                      },
+                      onPressed: () {},
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         //mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:health_and_doctor_appointment/screens/doctorProfile.dart';
 import 'package:typicons_flutter/typicons_flutter.dart';
 
 class SearchList extends StatefulWidget {
@@ -30,7 +29,7 @@ class _SearchListState extends State<SearchList> {
               return Center(
                 child: CircularProgressIndicator(),
               );
-            return (snapshot.data?.size??0) == 0
+            return (snapshot.data?.size ?? 0) == 0
                 ? Center(
                     child: Container(
                       child: Column(
@@ -59,7 +58,7 @@ class _SearchListState extends State<SearchList> {
                       scrollDirection: Axis.vertical,
                       physics: ClampingScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: snapshot.data?.size??0,
+                      itemCount: snapshot.data?.size ?? 0,
                       itemBuilder: (context, index) {
                         DocumentSnapshot doctor = snapshot.data!.docs[index];
                         return Padding(
@@ -76,16 +75,7 @@ class _SearchListState extends State<SearchList> {
                               width: MediaQuery.of(context).size.width,
                               height: MediaQuery.of(context).size.height / 9,
                               child: TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => DoctorProfile(
-                                        doctor: doctor['name'],
-                                      ),
-                                    ),
-                                  );
-                                },
+                                onPressed: () {},
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   //mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
@@ -74,64 +75,89 @@ class NotificationSetUp {
         channelKey: 'high_importance_channel',
         title: title,
         body: body,
-        icon: "",
+        icon: "assets/ic_launcher.png",
       ),
     );
   }
 
-  // @pragma("vm:entry-point")
+  Future<void> sendPushNotification({
+    required String deviceToken,
+    required String body,
+    required String title,
+  }) async {
+    try {
+      http.Response response = await http.post(
+          Uri.parse('https://fcm.googleapis.com/messages/send'),
+          // headers: <String, String>{
+          //   "Content-Type": "application/json; charset=UTF-8",
+          //   "Authorization":
+          //       "AAAAewiDHkM:APA91bHFdM2hLhYI7ryHOBeWgt8S0ikfSNZkj9OG28SKLICRA8d23bwnAJN3imqiJ1Z8FDq9vfbhcZatul-vJuPeDwE-l0d8Usg4LeN8WldmOL3l6akoB11WFlJvHC8J4DY5qMCnrHAV",
+          // },
+          // body: jsonEncode(
+          //   {
+          //     "notification": {
+          //       "body": body,
+          //       "title": title,
+          //     },
+          //     "priority": "high",
+          //     "data": {
+          //       "click_action": "FLUTTER_NOTIFICATION_CLICK",
+          //       "id": "1",
+          //       "status": "done"
+          //     },
+          //     "to": deviceToken
+          //   },
+          // ),
+          body: {
+            "title": "NOTI title",
+            "body": "",
+            "key": "hjsdcsjs bccxbbbhbkjz"
+          });
+      print("response = ${response.body}");
+    } catch (e) {
+      print('error: ' + e.toString());
+    }
+  }
 
   void eventListnerCallback(BuildContext context) async {
-    _checkDiff(DateTime _date) {
-      var diff = DateTime.now().difference(_date).inHours;
-      if (diff > 2) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-
-    String _dateFormatter(String _timestamp) {
-      String formattedDate =
-          DateFormat('dd-MM-yyyy').format(DateTime.parse(_timestamp));
-      return formattedDate;
-    }
-
-    _compareDate(String _date) {
-      if (_dateFormatter(DateTime.now().toString())
-              .compareTo(_dateFormatter(_date)) ==
-          0) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-
-    AwesomeNotifications().setListeners(
-      onActionReceivedMethod: NotificationController.onActionReceivedMethod,
-    );
     String uid = FirebaseAuth.instance.currentUser?.uid ?? "";
+
     final String? token = await FirebaseMessaging.instance.getToken();
     print("...token: $token....");
+
     FirebaseFirestore.instance
         .collection('users')
         .doc(uid)
         .collection('bills')
-        .orderBy('duedate')
+        .where("paid", isEqualTo: false)
         .snapshots()
         .listen((event) {
-      event.docs.forEach((element) {
+      event.docs.forEach((element) async {
         print("... fcm listen element: $element...");
 
-        _compareDate(element['duedate'].toDate().toString())
-            ? http
-                .post(Uri.http("192.168.137.1:8000", "/api/notifyapp"), body: {
-                "title": "Android test title",
+        // Calculate 1 day before due date
+        _checkDiff(DateTime _date) {
+          var diff = _date.difference(DateTime.now()).inHours;
+          print("time diff: $diff");
+          if (diff <= 24 && diff >= 0) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+
+        // Check if current date is the calculated one day before du e date
+        if (_checkDiff(element['duedate'].toDate())) {
+          http.Response response = await http.post(
+              Uri.parse('http://192.168.0.104:8000/api/notifyapp'),
+              body: {
+                "key": token!,
                 "body":
-                    "A reminder for payment to a bill for ${element['name']} due in 2 hours",
-                "token": token,
-              })
-            : null;
+                    "A reminder for payment to a bill for ${element['name']} due in 1 Day",
+                "title": "Bills Reminder",
+              });
+          print("response: ${response.statusCode}");
+        }
       });
     });
   }

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Carouselslider extends StatefulWidget {
@@ -36,33 +37,47 @@ class _CarouselsliderState extends State<Carouselslider> {
       child: GestureDetector(
         child: Stack(
           children: [
-            Image.asset(
-              'assets/414.jpg',
-              fit: BoxFit.fitHeight,
-            ),
-            Container(
-              padding: EdgeInsets.only(top: 7, right: 5),
-              alignment: Alignment.topRight,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    widget.data['name'],
-                    style: GoogleFonts.lato(
-                      color: Colors.lightBlue[900],
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                    ),
-                  ),
-                  Icon(
-                    Icons.chevron_right_rounded,
-                    color: Colors.lightBlue[900],
-                    size: 20,
-                  )
-                ],
+            Positioned.fill(
+              child: Image.asset(
+                'assets/bill.png',
+                fit: BoxFit.fitHeight,
               ),
             ),
+            Positioned(
+                right: 0,
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(top: 7, right: 5),
+                      alignment: Alignment.topRight,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            widget.data['name'],
+                            style: GoogleFonts.lato(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          ),
+                          Icon(
+                            Icons.chevron_right_rounded,
+                            color: Colors.lightBlue[900],
+                            size: 20,
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Text(
+                        widget.data['company'],
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )
+                  ],
+                )),
           ],
         ),
       ),

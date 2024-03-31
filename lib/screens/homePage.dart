@@ -1,19 +1,13 @@
 import 'dart:async';
-import 'dart:ui';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/painting.dart';
-import 'package:health_and_doctor_appointment/firestore-data/notificationList.dart';
-import 'package:health_and_doctor_appointment/model/cardModel.dart';
-import 'package:health_and_doctor_appointment/carouselSlider.dart';
-import 'package:health_and_doctor_appointment/screens/exploreList.dart';
-import 'package:health_and_doctor_appointment/firestore-data/searchList.dart';
-import 'package:health_and_doctor_appointment/firestore-data/topRatedList.dart';
-import 'package:icons_plus/icons_plus.dart';
-import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:health_and_doctor_appointment/carouselSlider.dart';
+import 'package:health_and_doctor_appointment/firestore-data/notificationList.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -220,7 +214,8 @@ class _HomePageState extends State<HomePage> {
                         .collection('users')
                         .doc(user?.uid ?? "")
                         .collection("bills")
-                        .orderBy('duedate', descending: true)
+                        // .orderBy('duedate', descending: false)
+                        .where("paid", isEqualTo: false)
                         .snapshots(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
@@ -285,7 +280,7 @@ class _HomePageState extends State<HomePage> {
                               return Container(
                                 margin: EdgeInsets.symmetric(
                                   vertical: 8,
-                                  // horizontal: 8,
+                                  // horizontal: 8,*
                                 ),
                                 padding: EdgeInsets.symmetric(horizontal: 10),
                                 decoration: BoxDecoration(

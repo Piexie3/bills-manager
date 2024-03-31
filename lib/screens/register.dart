@@ -250,7 +250,7 @@ class _RegisterState extends State<Register> {
                 height: 50,
                 child: ElevatedButton(
                   child: Text(
-                    "Sign In",
+                    "Sign Up",
                     style: GoogleFonts.lato(
                       color: Colors.white,
                       fontSize: 18.0,

@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:health_and_doctor_appointment/firebase_options.dart';
 import 'package:health_and_doctor_appointment/notification.dart';
-import 'package:health_and_doctor_appointment/screens/doctorProfile.dart';
 import 'package:health_and_doctor_appointment/screens/firebaseAuth.dart';
 import 'package:health_and_doctor_appointment/mainPage.dart';
 import 'package:health_and_doctor_appointment/screens/myAppointments.dart';
@@ -72,9 +71,6 @@ class _MyAppState extends State<MyApp> {
         '/home': (context) => MainPage(),
         '/profile': (context) => UserProfile(),
         '/MyAppointments': (context) => MyBills(),
-        '/DoctorProfile': (context) => DoctorProfile(
-              doctor: "Manu",
-            ),
       },
       theme: ThemeData(brightness: Brightness.light),
       debugShowCheckedModeBanner: false,

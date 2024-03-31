@@ -24,6 +24,7 @@ class _AddBillsScreenState extends State<AddBillsScreen> {
   FocusNode f3 = FocusNode();
   FocusNode f4 = FocusNode();
   FocusNode f5 = FocusNode();
+  FocusNode f6 = FocusNode();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   DateTime selectedDate = DateTime.now();
@@ -43,7 +44,7 @@ class _AddBillsScreenState extends State<AddBillsScreen> {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2021),
+      firstDate: DateTime.now(),
       lastDate: DateTime(2025),
     ).then(
       (date) {
@@ -85,7 +86,12 @@ class _AddBillsScreenState extends State<AddBillsScreen> {
         style: GoogleFonts.lato(fontWeight: FontWeight.bold),
       ),
       onPressed: () {
-        Navigator.pop(context);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => MyBills(),
+          ),
+        );
       },
     );
 
@@ -239,7 +245,6 @@ class _AddBillsScreenState extends State<AddBillsScreen> {
                             fontWeight: FontWeight.w800,
                           ),
                         ),
-                    
                         onFieldSubmitted: (String value) {
                           f2.unfocus();
                           FocusScope.of(context).requestFocus(f3);
@@ -421,7 +426,7 @@ class _AddBillsScreenState extends State<AddBillsScreen> {
                                 return null;
                               },
                               onFieldSubmitted: (String value) {
-                                f5.unfocus();
+                                f6.unfocus();
                               },
                               textInputAction: TextInputAction.next,
                               style: GoogleFonts.lato(
@@ -470,6 +475,7 @@ class _AddBillsScreenState extends State<AddBillsScreen> {
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               showAlertDialog(context);
+
                               _createAppointment();
                             }
                           },

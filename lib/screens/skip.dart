@@ -17,24 +17,27 @@ class _SkipState extends State<Skip> {
     return [
       PageViewModel(
         title: '',
-        image: Image.asset(
-          'assets/doc.png',
-          //fit: BoxFit.cover,
+        image: CircleAvatar(
+          backgroundImage: AssetImage(
+            'assets/bill.png',
+            //fit: BoxFit.cover,
+          ),
+          radius: 120,
         ),
         //body: "Search Doctors",
         bodyWidget: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Search Doctors',
+              'Bill record',
               style:
                   GoogleFonts.lato(fontSize: 30, fontWeight: FontWeight.w900),
             ),
             Text(
-              'Find popular doctors nearby you',
+              'Find your bill records and upcoming bills',
               style: GoogleFonts.lato(
                   fontSize: 15,
-                  color: Colors.grey[500],
+                  // colo/
                   fontWeight: FontWeight.w800),
             ),
           ],
@@ -42,24 +45,27 @@ class _SkipState extends State<Skip> {
       ),
       PageViewModel(
         title: '',
-        image: Image.asset(
-          'assets/disease.png',
-          //fit: BoxFit.cover,
+        image: CircleAvatar(
+          backgroundImage: AssetImage(
+            'assets/ic_launcher.png',
+            //fit: BoxFit.cover,
+          ),
+          radius: 120,
         ),
         //body: "Search Doctors",
         bodyWidget: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Search Disease',
+              'Bill notification',
               style:
                   GoogleFonts.lato(fontSize: 30, fontWeight: FontWeight.w900),
             ),
             Text(
-              'Find information about disease',
+              "Notified about the bills that it's due time",
               style: GoogleFonts.lato(
                   fontSize: 15,
-                  color: Colors.grey[500],
+                  // color: Colors.grey[500],
                   fontWeight: FontWeight.w800),
             ),
           ],
@@ -72,7 +78,7 @@ class _SkipState extends State<Skip> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: IntroductionScreen(
-        globalBackgroundColor: Colors.lightBlue[100],
+        globalBackgroundColor: Color.fromARGB(255, 246, 25, 253),
         pages: getpages(),
         showNextButton: false,
         showSkipButton: true,
