@@ -7,9 +7,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:health_and_doctor_appointment/constants.dart';
 import 'package:health_and_doctor_appointment/firebase_options.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 
 Future<dynamic> myBackgroundMessageHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -75,49 +75,28 @@ class NotificationSetUp {
         channelKey: 'high_importance_channel',
         title: title,
         body: body,
-        icon: "assets/ic_launcher.png",
+        // icon: "assets/ic_launcher.png",
       ),
     );
   }
 
-  Future<void> sendPushNotification({
-    required String deviceToken,
-    required String body,
-    required String title,
-  }) async {
-    try {
-      http.Response response = await http.post(
-          Uri.parse('https://fcm.googleapis.com/messages/send'),
-          // headers: <String, String>{
-          //   "Content-Type": "application/json; charset=UTF-8",
-          //   "Authorization":
-          //       "AAAAewiDHkM:APA91bHFdM2hLhYI7ryHOBeWgt8S0ikfSNZkj9OG28SKLICRA8d23bwnAJN3imqiJ1Z8FDq9vfbhcZatul-vJuPeDwE-l0d8Usg4LeN8WldmOL3l6akoB11WFlJvHC8J4DY5qMCnrHAV",
-          // },
-          // body: jsonEncode(
-          //   {
-          //     "notification": {
-          //       "body": body,
-          //       "title": title,
-          //     },
-          //     "priority": "high",
-          //     "data": {
-          //       "click_action": "FLUTTER_NOTIFICATION_CLICK",
-          //       "id": "1",
-          //       "status": "done"
-          //     },
-          //     "to": deviceToken
-          //   },
-          // ),
-          body: {
-            "title": "NOTI title",
-            "body": "",
-            "key": "hjsdcsjs bccxbbbhbkjz"
-          });
-      print("response = ${response.body}");
-    } catch (e) {
-      print('error: ' + e.toString());
-    }
-  }
+  // Future<void> sendPushNotification({
+  //   required String deviceToken,
+  //   required String body,
+  //   required String title,
+  // }) async {
+  //   try {
+  //     http.Response response = await http
+  //         .post(Uri.parse('https://fcm.googleapis.com/messages/send'), body: {
+  //       "title": "NOTI title",
+  //       "body": "",
+  //       "key": "hjsdcsjs bccxbbbhbkjz"
+  //     });
+  //     print("response = ${response.body}");
+  //   } catch (e) {
+  //     print('error: ' + e.toString());
+  //   }
+  // }
 
   void eventListnerCallback(BuildContext context) async {
     String uid = FirebaseAuth.instance.currentUser?.uid ?? "";
@@ -139,7 +118,7 @@ class NotificationSetUp {
         _checkDiff(DateTime _date) {
           var diff = _date.difference(DateTime.now()).inHours;
           print("time diff: $diff");
-          if (diff <= 24 && diff >= 0) {
+          if (diff == 24) {
             return true;
           } else {
             return false;
@@ -148,15 +127,11 @@ class NotificationSetUp {
 
         // Check if current date is the calculated one day before du e date
         if (_checkDiff(element['duedate'].toDate())) {
-          http.Response response = await http.post(
-              Uri.parse('http://192.168.0.104:8000/api/notifyapp'),
-              body: {
-                "key": token!,
-                "body":
-                    "A reminder for payment to a bill for ${element['name']} due in 1 Day",
-                "title": "Bills Reminder",
-              });
-          print("response: ${response.statusCode}");
+          createOrderNotifications(
+            body:
+                "A reminder for payment to a bill for ${element['name']} due in 1 Day",
+            title: "Bills Reminder",
+          );
         }
       });
     });
@@ -169,10 +144,10 @@ class NotificationController {
   User? user;
   _checkDiff(DateTime _date) {
     var diff = DateTime.now().difference(_date).inHours;
-    if (diff > 2) {
-      return true;
+    if (diff == 24) {
+      return 24;
     } else {
-      return false;
+      return;
     }
   }
 
@@ -182,3 +157,14 @@ class NotificationController {
     /// when notification is clicked
   }
 }
+
+
+
+// _checkDiff(DateTime _date) {
+//   var diff = DateTime.now().difference(_date).inHours;
+//   if (diff == 24) {
+//     return 24;
+//   } else {
+//     return;
+//   }
+// }

@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:health_and_doctor_appointment/notification.dart';
+import 'package:health_and_doctor_appointment/constants.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 class MyBillList extends StatefulWidget {
   @override
@@ -166,14 +168,14 @@ class _MyBillListState extends State<MyBillList> {
                   itemCount: snapshot.data?.size ?? 0,
                   itemBuilder: (context, index) {
                     DocumentSnapshot document = snapshot.data!.docs[index];
-                    if (_checkDiff(document['duedate'].toDate())) {
-                      NotificationSetUp().sendPushNotification(
-                        deviceToken: deviceID,
-                        body:
-                            "Hello we remind you for the upcoming bill of ${document['name']} which is due tomorrow",
-                        title: "Bill reminder",
-                      );
-                    }
+                    // if (_checkDiff(document['duedate'].toDate())) {
+                    //   NotificationSetUp().sendPushNotification(
+                    //     deviceToken: deviceID,
+                    //     body:
+                    //         "Hello we remind you for the upcoming bill of ${document['name']} which is due tomorrow",
+                    //     title: "Bill reminder",
+                    //   );
+                    // }
 
                     return Card(
                       elevation: 2,
@@ -272,8 +274,18 @@ class _MyBillListState extends State<MyBillList> {
                                       ),
                                     ),
                                     GestureDetector(
-                                      onTap: () {
+                                      onTap: () async {
+                                        final String? token =
+                                            await FirebaseMessaging.instance
+                                                .getToken();
                                         paidBill(document.id);
+                                        await http
+                                            .post(Uri.parse(apiUrl), body: {
+                                          "key": token!,
+                                          "body":
+                                              "A reminder for payment to a bill for ${document['name']} due in 1 Day",
+                                          "title": "Bills Reminder",
+                                        });
                                       },
                                       child: SizedBox(
                                         width: 100,
